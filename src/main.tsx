@@ -1,5 +1,10 @@
 import { render } from 'preact'
-import './index.css'
 import { App } from './app.tsx'
+import { PersonProvider } from './context/ConnectionsContext.tsx'
+import './index.css'
 
-render(<App />, document.getElementById('app')!)
+render(
+  <PersonProvider>
+    <App />
+  </PersonProvider>
+  , document.getElementById('app')!)

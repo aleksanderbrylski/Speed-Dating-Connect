@@ -21,6 +21,10 @@ const TextOverlay = styled(Typography)({
   transform: 'translate(-50%, -50%)',
   textWrap: 'nowrap',
   // padding: '10px 20px',
+  '@media (max-width:600px)': {
+    top: '50%',
+    left: '50%',
+  },
 });
 
 const TextOverlaySmall = styled(Typography)({
@@ -29,6 +33,11 @@ const TextOverlaySmall = styled(Typography)({
   left: '70%',
   transform: 'translate(-50%, -50%)',
   textWrap: 'nowrap',
+  '@media (max-width:600px)': {
+    top: '65%',
+    left: '50%',
+    textWrap: 'wrap',
+  },
   // padding: '10px 20px',
 });
 
@@ -37,7 +46,10 @@ const ButtonOverlay = styled(Button)({
   top: '80%',
   left: '70%',
   transform: 'translate(-50%, -50%)',
-  textWrap: 'nowrap',
+  '@media (max-width:600px)': {
+    top: '25%',
+    left: '50%',
+  },
   // padding: '10px 20px',
 });
 

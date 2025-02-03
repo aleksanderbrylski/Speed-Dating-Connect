@@ -56,7 +56,12 @@ export function AddPersons() {
         </Button>
 
       </Box>
-      <List sx={{ width: '500px' }}>
+      <List sx={{
+        width: '500px',
+        '@media (max-width:600px)': {
+          width: '75vw',
+        },
+      }}>
         {persons.map((item, index) => (
           <ListItem
             key={index}

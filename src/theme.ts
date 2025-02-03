@@ -10,6 +10,15 @@ const theme = createTheme({
       main: '#8A616B',
     },
   },
+  breakpoints: {
+    values: {
+      xs: 0,   // extra-small screens
+      sm: 600, // small screens
+      md: 900, // medium screens
+      lg: 1200, // large screens
+      xl: 1536, // extra-large screens
+    },
+  },
   typography: {
     fontFamily: 'epilogue, sans-serif',
     h1: {
@@ -34,7 +43,11 @@ const theme = createTheme({
       lineHeight: '60px',
       letterSpacing: '-2px',
       color: '#ffffff',
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      '@media (max-width:600px)': {
+        fontSize: '24px',
+        lineHeight: '30px',
+      },
     },
     h5: {
       fontFamily: 'epilogue, sans-serif',
@@ -42,7 +55,11 @@ const theme = createTheme({
       lineHeight: '24px',
       letterSpacing: '0px',
       color: '#ffffff',
-      fontWeight: 300
+      fontWeight: 300,
+      '@media (max-width:600px)': {
+        fontSize: '14px',
+        lineHeight: '18px',
+      },
     },
     h6: {
       fontFamily: 'epilogue, sans-serif',

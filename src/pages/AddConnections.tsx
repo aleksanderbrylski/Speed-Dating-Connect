@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Grid, List, ListItemButton, ListItemIcon, ListItemText, Pagination, Paper, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Checkbox, Grid, List, ListItemButton, ListItemIcon, ListItemText, Pagination, Paper, Stack, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { debounce } from 'lodash';
 import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 import { useNavigate } from "react-router-dom";
@@ -15,8 +15,11 @@ function intersection(a: Person[], b: Person[]) {
 export function AddConnections() {
   const [page, setPage] = useState(1);
   const { persons, addLikedPersons } = useContext(PersonContext)!;
-
+  console.log(persons)
   const navigate = useNavigate();
+  if (persons.length === 0) {
+    window.location.href = "/"
+  }
   const person = persons[page - 1]
 
   const [checked, setChecked] = useState<Person[]>([]);
@@ -127,6 +130,9 @@ export function AddConnections() {
     setPage(value);
   };
 
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
     <Stack
       direction="column"
@@ -140,7 +146,7 @@ export function AddConnections() {
         <Typography variant="h3" gutterBottom>
           {person.name}
         </Typography>
-        <Grid container spacing={4} direction="row">
+        <Grid container spacing={4} direction={isSmallScreen ? 'column' : 'row'} justifyContent="center" alignItems="center">
           <Grid item>
             <Typography variant="body2" gutterBottom>
               All persons
@@ -148,7 +154,7 @@ export function AddConnections() {
             {customList(filteredLeft, true)}
           </Grid>
           <Grid item sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <Grid container direction="column" sx={{ alignItems: 'center', justifyContent: 'center' }}>
+            <Grid container direction={isSmallScreen ? 'row' : 'column'} sx={{ alignItems: 'center', justifyContent: 'center' }}>
               <Button
                 sx={{ my: 0.5 }}
                 variant="outlined"

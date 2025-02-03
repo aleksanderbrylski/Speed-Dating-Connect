@@ -1,4 +1,7 @@
+import CalculateOutlinedIcon from '@mui/icons-material/CalculateOutlined';
+import Diversity1OutlinedIcon from '@mui/icons-material/Diversity1Outlined';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
 import { Box, Stack, Typography } from "@mui/material";
 import { useContext, useEffect } from "preact/hooks";
 import CardCustom from '../components/Card';
@@ -41,17 +44,17 @@ export function Overview() {
         <CardCustom
           title="Add Connections"
           text="Add connections between participants. For every participant, you can choose any other participant. Simply click button and move from left to right."
-          icon={<PeopleAltOutlinedIcon sx={{ fontSize: 24, fontWeight: 100 }} />}
+          icon={<Diversity1OutlinedIcon sx={{ fontSize: 24, fontWeight: 100 }} />}
         />
         <CardCustom
           title="Calculate Matches"
           text="Our matching algorithm will check all of the connection between participants and only return these where both participants selected each other."
-          icon={<PeopleAltOutlinedIcon sx={{ fontSize: 24, fontWeight: 100 }} />}
+          icon={<CalculateOutlinedIcon sx={{ fontSize: 24, fontWeight: 100 }} />}
         />
         <CardCustom
           title="View Matches"
           text="You can view matches for every participant and export data to a JSON file."
-          icon={<PeopleAltOutlinedIcon sx={{ fontSize: 24, fontWeight: 100 }} />}
+          icon={<SummarizeOutlinedIcon sx={{ fontSize: 24, fontWeight: 100 }} />}
         />
       </Box>
     </Stack>

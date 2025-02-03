@@ -1,5 +1,6 @@
-import { Box, Button, Checkbox, Grid, List, ListItemButton, ListItemIcon, ListItemText, Pagination, Paper, Stack, Typography } from "@mui/material";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { Box, Button, Checkbox, Grid, List, ListItemButton, ListItemIcon, ListItemText, Pagination, Paper, Stack, TextField, Typography } from "@mui/material";
+import { debounce } from 'lodash';
+import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 import { useNavigate } from "react-router-dom";
 import { Person, PersonContext } from "../context/ConnectionsContext";
 
@@ -11,7 +12,6 @@ function intersection(a: Person[], b: Person[]) {
   return a.filter((value) => b.includes(value));
 }
 
-
 export function AddConnections() {
   const [page, setPage] = useState(1);
   const { persons, addLikedPersons } = useContext(PersonContext)!;
@@ -22,7 +22,6 @@ export function AddConnections() {
   const [checked, setChecked] = useState<Person[]>([]);
   const [left, setLeft] = useState<Person[]>([]);
   const [right, setRight] = useState<Person[]>([]);
-
 
   useEffect(() => {
     setLeft(persons.filter(i => i.id !== persons[page - 1].id && !persons[page - 1].likedPersons.find(sub => sub.id === i.id)))
@@ -68,11 +67,35 @@ export function AddConnections() {
     setRight([]);
   };
 
+  const [filterText, setFilterText] = useState('');
 
+  const debouncedSetFilterText = useMemo(
+    () => debounce((text: string) => setFilterText(text), 300
+    ), []);
 
-  const customList = (items: Person[]) => (
+  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target) {
+      debouncedSetFilterText((event.target as HTMLInputElement).value);
+    }
+  };
+
+  const filteredLeft = left.filter(item =>
+    item.name.toLowerCase().includes(filterText.toLowerCase())
+  );
+
+  const customList = (items: Person[], left?: boolean) => (
     <Paper sx={{ width: 200, height: 230, overflow: 'auto', background: "#FCF7FA" }} variant="elevation">
       <List dense component="div" role="list">
+        {left &&
+          <TextField
+            id="filter"
+            label="Search..."
+            variant="outlined"
+            size="small"
+            value={filterText}
+            onChange={handleFilterChange}
+          />
+        }
         {items.map((value: Person) => {
           const labelId = `transfer-list-item-${value}-label`;
           return (
@@ -122,7 +145,7 @@ export function AddConnections() {
             <Typography variant="body2" gutterBottom>
               All persons
             </Typography>
-            {customList(left)}
+            {customList(filteredLeft, true)}
           </Grid>
           <Grid item sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <Grid container direction="column" sx={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -191,7 +214,10 @@ export function AddConnections() {
       <Button
         variant="contained"
         color="primary"
-        onClick={() => navigate("/calculate")}
+        onClick={() => {
+          addLikedPersons(persons[page - 1].id, right)
+          navigate("/calculate")
+        }}
         style={{ marginTop: '30px' }}
         fullWidth
       >

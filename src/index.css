@@ -15,3 +15,38 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+/* WebKit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 10px;
+  /* Width of the vertical scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #E8D1D6;
+  /* Background color of the scrollbar track */
+  border-radius: 8px;
+  /* Rounded corners for the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #964F61;
+  /* Color of the scrollbar thumb */
+  border-radius: 8px;
+  /* Rounded corners for the thumb */
+  border: 3px solid #E8D1D6;
+  /* Padding around thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #7d3c50;
+  /* Color of the scrollbar thumb on hover */
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  /* Scrollbar width */
+  scrollbar-color: #964F61 #E8D1D6;
+  /* Thumb and track color */
+}

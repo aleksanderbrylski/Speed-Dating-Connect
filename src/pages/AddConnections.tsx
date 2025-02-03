@@ -1,4 +1,4 @@
-import { Button, Checkbox, Grid, List, ListItemButton, ListItemIcon, ListItemText, Pagination, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, Checkbox, Grid, List, ListItemButton, ListItemIcon, ListItemText, Pagination, Paper, Stack, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "preact/hooks";
 import { useNavigate } from "react-router-dom";
 import { Person, PersonContext } from "../context/ConnectionsContext";
@@ -12,7 +12,7 @@ function intersection(a: Person[], b: Person[]) {
 }
 
 
-export function CreateNewConnections() {
+export function AddConnections() {
   const [page, setPage] = useState(1);
   const { persons, addLikedPersons } = useContext(PersonContext)!;
 
@@ -27,6 +27,7 @@ export function CreateNewConnections() {
   useEffect(() => {
     setLeft(persons.filter(i => i.id !== persons[page - 1].id && !persons[page - 1].likedPersons.find(sub => sub.id === i.id)))
     setRight(persons[page - 1].likedPersons)
+    setChecked([])
   }, [page])
 
   const leftChecked = intersection(checked, left);
@@ -70,11 +71,10 @@ export function CreateNewConnections() {
 
 
   const customList = (items: Person[]) => (
-    <Paper sx={{ width: 200, height: 230, overflow: 'auto', background: "#4a4a4a" }} variant="elevation">
+    <Paper sx={{ width: 200, height: 230, overflow: 'auto', background: "#FCF7FA" }} variant="elevation">
       <List dense component="div" role="list">
         {items.map((value: Person) => {
           const labelId = `transfer-list-item-${value}-label`;
-
           return (
             <ListItemButton
               key={value}
@@ -118,9 +118,13 @@ export function CreateNewConnections() {
           {person.name}
         </Typography>
         <Grid container spacing={4} direction="row">
-          <Grid item>{customList(left)}
-          </Grid>
           <Grid item>
+            <Typography variant="body2" gutterBottom>
+              All persons
+            </Typography>
+            {customList(left)}
+          </Grid>
+          <Grid item sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <Grid container direction="column" sx={{ alignItems: 'center', justifyContent: 'center' }}>
               <Button
                 sx={{ my: 0.5 }}
@@ -165,13 +169,34 @@ export function CreateNewConnections() {
             </Grid>
           </Grid>
           <Grid item>
-            <Grid item>{customList(right)}
-
+            <Typography variant="body2" gutterBottom>
+              Liked persons
+            </Typography>
+            <Grid item>
+              {customList(right)}
             </Grid>
           </Grid>
         </Grid>
       </div>
-      <Pagination count={persons.length} color="secondary" page={page} onChange={handleChange} />
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Pagination
+          count={persons.length}
+          color="primary"
+          page={page}
+          onChange={handleChange}
+          variant="outlined"
+          size="large"
+        />
+      </Box>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => navigate("/calculate")}
+        style={{ marginTop: '30px' }}
+        fullWidth
+      >
+        Calculate matches
+      </Button>
       <Button
         variant="contained"
         color="primary"

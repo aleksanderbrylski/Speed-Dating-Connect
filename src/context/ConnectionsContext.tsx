@@ -21,13 +21,13 @@ interface PersonContextType {
   addPerson: (text: string, parentId?: string) => void;
   deletePerson: (id: string, parentId?: string) => void;
   addLikedPersons: (id: string, likedPersons: Person[]) => void;
+  clearPersons: () => void;
 }
 
 export const PersonContext = createContext<PersonContextType | undefined>(undefined);
 
 export const PersonProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [persons, setPersons] = useState<Person[]>([]);
-  console.log(persons)
 
   const addPerson = (name: string) => {
     const newPerson: Person = { id: generateRandomId(10), name, likedPersons: [] };
@@ -53,8 +53,12 @@ export const PersonProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     }
   };
 
+  const clearPersons = () => {
+    setPersons([]);
+  }
+
   return (
-    <PersonContext.Provider value={{ persons, addPerson, deletePerson, addLikedPersons }}>
+    <PersonContext.Provider value={{ persons, addPerson, deletePerson, addLikedPersons, clearPersons }}>
       {children}
     </PersonContext.Provider>
   );

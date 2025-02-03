@@ -1,8 +1,17 @@
-import { Button, Stack, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import { Box, Stack, Typography } from "@mui/material";
+import { useContext, useEffect } from "preact/hooks";
+import CardCustom from '../components/Card';
+import ImageWithText from "../components/ImageWithText";
+import { PersonContext } from "../context/ConnectionsContext";
 
 export function Overview() {
-  const navigate = useNavigate();
+  const { clearPersons } = useContext(PersonContext)!;
+
+  useEffect(() => {
+    clearPersons();
+  }, []);
+
   return (
     <Stack
       direction="column"
@@ -12,19 +21,39 @@ export function Overview() {
         alignItems: "center",
       }}
     >
-      <Typography variant="h2" gutterBottom>
-        Speed Dating Connect
+      <ImageWithText />
+      <Typography variant="h2" gutterBottom style={{ textAlign: "left" }}>
+        How it works
       </Typography>
-      <Stack
-        direction="row"
-        spacing={4}
+      <Box
         sx={{
-          justifyContent: "space-between",
+          width: '100%',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(min(200px, 100%), 1fr))',
+          gap: 2,
         }}
       >
-        <Button variant="contained" onClick={() => navigate("/create")}>Create New</Button>
-        <Button variant="contained" href="load">Load</Button>
-      </Stack>
+        <CardCustom
+          title="Add Participants"
+          text="Add participants to the list by entering their names. You can add as many participants as you like."
+          icon={<PeopleAltOutlinedIcon sx={{ fontSize: 24, fontWeight: 100 }} />}
+        />
+        <CardCustom
+          title="Add Connections"
+          text="Add connections between participants. For every participant, you can choose any other participant. Simply click button and move from left to right."
+          icon={<PeopleAltOutlinedIcon sx={{ fontSize: 24, fontWeight: 100 }} />}
+        />
+        <CardCustom
+          title="Calculate Matches"
+          text="Our matching algorithm will check all of the connection between participants and only return these where both participants selected each other."
+          icon={<PeopleAltOutlinedIcon sx={{ fontSize: 24, fontWeight: 100 }} />}
+        />
+        <CardCustom
+          title="View Matches"
+          text="You can view matches for every participant and export data to a JSON file."
+          icon={<PeopleAltOutlinedIcon sx={{ fontSize: 24, fontWeight: 100 }} />}
+        />
+      </Box>
     </Stack>
   )
 }

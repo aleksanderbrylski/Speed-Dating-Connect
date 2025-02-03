@@ -1,11 +1,11 @@
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, IconButton, List, ListItem, ListItemText, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, List, ListItem, ListItemText, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "preact/hooks";
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PersonContext } from '../context/ConnectionsContext';
 
-export function InputData() {
+export function AddPersons() {
   const { persons, addPerson, deletePerson } = useContext(PersonContext)!;
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState('');
@@ -22,39 +22,41 @@ export function InputData() {
       direction="column"
       spacing={4}
       sx={{
-        justifyContent: "center",
-        alignItems: "center",
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
       }}
     >
-      <Typography variant="h2" gutterBottom>
-        Add Persons
+      <Typography variant="h1" gutterBottom>
+        Manage Participants
       </Typography>
-      <TextField
-        label="Add Person"
-        variant="outlined"
-        fullWidth
-        value={inputValue}
-        onChange={(e) => {
-          if (e.target) {
-            setInputValue((e.target as HTMLInputElement).value);
-          }
-        }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            handleAddItem();
-          }
-        }}
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleAddItem}
-        style={{ marginTop: '10px', marginBottom: '20px' }}
-        fullWidth
-      >
-        Add
-      </Button>
-      <List sx={{ width: '100%' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'baseline', columnGap: '20px' }}>
+        <TextField
+          label="Add Person"
+          variant="outlined"
+          value={inputValue}
+          onChange={(e) => {
+            if (e.target) {
+              setInputValue((e.target as HTMLInputElement).value);
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleAddItem();
+            }
+          }}
+        />
+        <Button
+          size='large'
+          variant="contained"
+          color="primary"
+          onClick={handleAddItem}
+          style={{ marginTop: '10px', marginBottom: '20px' }}
+        >
+          Add
+        </Button>
+
+      </Box>
+      <List sx={{ width: '500px' }}>
         {persons.map((item, index) => (
           <ListItem
             key={index}
@@ -77,9 +79,8 @@ export function InputData() {
           color="primary"
           onClick={() => navigate("/edit")}
           style={{ marginTop: '30px' }}
-          fullWidth
-        >
-          Next
+          fullWidth>
+          Add connections
         </Button>
       )}
     </Stack>

@@ -214,7 +214,7 @@ export function AddConnections() {
           page={page}
           onChange={handleChange}
           variant="outlined"
-          size="large"
+          size={isSmallScreen ? 'medium' : 'large'}
         />
       </Box>
       <Button

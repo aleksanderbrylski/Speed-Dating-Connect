@@ -1,4 +1,4 @@
-import { Button, List, ListItem, ListItemText, Pagination, Stack, Typography } from "@mui/material";
+import { Button, List, ListItem, ListItemText, Pagination, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useContext, useEffect, useState } from "preact/hooks";
 import { useNavigate } from "react-router-dom";
 import { Person, PersonContext } from "../context/ConnectionsContext";
@@ -53,6 +53,9 @@ export function CalculateConnections() {
     element.click();
   }
 
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
   useEffect(() => {
     const result = findAllDoubleConnectedPersons(persons);
     setMatches(result);
@@ -78,27 +81,30 @@ export function CalculateConnections() {
       <Typography variant="h2" gutterBottom>
         Matches for {person.name}
       </Typography>
-      <Typography variant="body2" gutterBottom>
-        <List sx={{ width: '500px' }}>
-          {matches[person.id].map((id) => persons.find(p => p.id === id)?.name).map((item, index) => (
-            <ListItem
-              key={index}
-              disableGutters
-            >
-              <ListItemText
-                primary={`${index + 1}. ${item}`}
-              />
-            </ListItem>
-          ))}
-        </List>
-      </Typography>
+      <List sx={{
+        width: '500px',
+        '@media (max-width:600px)': {
+          width: '75vw',
+        },
+      }}>
+        {matches[person.id].map((id) => persons.find(p => p.id === id)?.name).map((item, index) => (
+          <ListItem
+            key={index}
+            disableGutters
+          >
+            <ListItemText
+              primary={`${index + 1}. ${item}`}
+            />
+          </ListItem>
+        ))}
+      </List>
       <Pagination
         count={persons.length}
         color="primary"
         page={page}
         onChange={handleChange}
         variant="outlined"
-        size="large"
+        size={isSmallScreen ? 'medium' : 'large'}
       />
       <Button
         variant="contained"

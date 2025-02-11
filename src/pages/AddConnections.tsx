@@ -15,11 +15,12 @@ function intersection(a: Person[], b: Person[]) {
 export function AddConnections() {
   const [page, setPage] = useState(1);
   const { persons, addLikedPersons } = useContext(PersonContext)!;
-  console.log(persons)
   const navigate = useNavigate();
+
   if (persons.length === 0) {
     window.location.href = "/"
   }
+
   const person = persons[page - 1]
 
   const [checked, setChecked] = useState<Person[]>([]);

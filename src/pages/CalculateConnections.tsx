@@ -12,6 +12,9 @@ function findAllDoubleConnectedPersons(nodes: Person[]): Record<string, string[]
 
     // Iterate through the connections of the current node
     for (let connectedNode of node.likedPersons) {
+      if (doubleConnectedMap[connectedNode.id] === undefined) {
+        doubleConnectedMap[connectedNode.id] = [];
+      }
       // Check if the connected node also has the current node in its connections
       if (connectedNode.likedPersons.some(n => n.id === node.id)) {
         // Add the connected node to the list if it's double connected
